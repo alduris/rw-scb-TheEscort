@@ -18,7 +18,7 @@ namespace TheEscort
     /// <summary>
     /// For methods that need to be split. Default is the launchpad.
     /// </summary>
-    partial class Plugin : BaseUnityPlugin
+    partial class Plugin
     {
         public static readonly PlayerFeature<bool> InstaHype = PlayerBool("theescort/insta_hype");
 
@@ -245,6 +245,7 @@ namespace TheEscort
         private void Escort_Update(On.Player.orig_Update orig, Player self, bool eu)
         {
             orig(self, eu);
+
             try
             {
                 if (Eshelp_IsMe(self.slugcatStats.name))

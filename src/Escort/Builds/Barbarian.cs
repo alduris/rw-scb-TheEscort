@@ -58,9 +58,9 @@ namespace TheEscort.Escort.Builds
             }
 
             // Shield stun delay. Get stun value from creature (may just need to use cretin.stun.... if it doesn't get affected by pacifying hold)
-            if (e.BarShieldStunDelay > 0)
+            if (shieldStunDelay > 0)
             {
-                e.BarShieldStunDelay--;
+                shieldStunDelay--;
             }
         }
 

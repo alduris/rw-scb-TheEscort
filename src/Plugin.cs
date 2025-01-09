@@ -15,6 +15,8 @@ using static SlugBase.Features.FeatureTypes;
 using static TheEscort.Eshelp;
 using static TheEscort.SMSMod;
 using static UrufuCutsceneTool.CsInLogger;
+using static TheEscort.Enums.SlugcatNames;
+using static TheEscort.Enums.Sounds;
 
 
 /// <summary>
@@ -177,77 +179,7 @@ partial class Plugin : BaseUnityPlugin
     #endregion
 
 #region Plugin Variable Declarations
-    public static readonly SlugcatStats.Name EscortMe = new("EscortMe");
-    public static readonly SlugcatStats.Name EscortSocks = new("EscortSocks");
-    //public static readonly SlugcatStats.Name ShadowEscort = new("EscortDummy", true);
 
-    /// <summary>
-    /// Urufu calls you a failure.
-    /// </summary>
-    public static SoundID Escort_SFX_Death;
-    /// <summary>
-    /// Urufu says "Sick Flip!"
-    /// </summary>
-    public static SoundID Escort_SFX_Flip;
-    /// <summary>
-    /// Urufu says "Cool Flip!"
-    /// </summary>
-    public static SoundID Escort_SFX_Flip2;
-    /// <summary>
-    /// Urufu says "Nice Flip!"
-    /// </summary>
-    public static SoundID Escort_SFX_Flip3;
-    /// <summary>
-    /// ...around and around and around and around and around and around and around and around and around and around and around and around and around and around and around...
-    /// </summary>
-    public static SoundID Escort_SFX_Roll;
-    /// <summary>
-    /// Uru says "Boop" in multiple pitches and inflections
-    /// </summary>
-    public static SoundID Escort_SFX_Boop;
-    /// <summary>
-    /// That Deltarune explosion sfx edited to sound extremely cheap, juuust like Rails.
-    /// </summary>
-    public static SoundID Escort_SFX_Railgunner_Death;
-    /// <summary>
-    /// Lizard, grab. Lizard, grab. Lizard, grab. Lizard, grab. Lizard,grab. Lizard, grab. Lizard, grab. Lizard, grab.
-    /// </summary>
-    public static SoundID Escort_SFX_Lizard_Grab;
-    /// <summary>
-    /// A thump made by a kick drum
-    /// </summary>
-    public static SoundID Escort_SFX_Impact;
-    /// <summary>
-    /// A high pitch bell hit
-    /// </summary>
-    public static SoundID Escort_SFX_Parry;
-    /// <summary>
-    /// A metal knife rubbing against another knife
-    /// </summary>
-    public static SoundID Escort_SFX_Brawler_Shank;
-    /// <summary>
-    /// A distorted clap
-    /// </summary>
-    public static SoundID Escort_SFX_Pole_Bounce;
-    /// <summary>
-    /// Urufu calls you fat (Rotund World exclusive!)
-    /// </summary>
-    public static SoundID Escort_SFX_Uhoh_Big;
-    /// <summary>
-    /// Urufu is being real sneaky
-    /// </summary>
-    public static SoundID Esconfig_SFX_Sectret;
-    /// <summary>
-    /// Literal SILENCE
-    /// </summary>
-    public static SoundID Escort_SFX_Placeholder;
-    /// <summary>
-    /// Bass pluck reversed (inspired by Bearhugger's incoming punch sfx from Punch-Out Wii)
-    /// </summary>
-    public static SoundID Escort_SFX_Gild_Stomp;
-
-    //(Urufu announces your spawn for 2023 April Fools)
-    // public static SoundID Escort_SFX_Spawn;
 
 
     // Miscellanious things
@@ -339,6 +271,7 @@ partial class Plugin : BaseUnityPlugin
 
     /// <summary>
     /// Here's where all the hooks go... oh god why are there so many hooks?! HOW IS MY CODE STILL FUNCTIONAL AND MOSTLY COMPATIBLE WITH OTHER MODS?!
+    /// Alduris: because you don't use too many IL hooks, call orig in most, and actually check for your slugcat :P
     /// </summary>
     public void OnEnable()
     {
@@ -541,23 +474,6 @@ partial class Plugin : BaseUnityPlugin
         ins.L().Set();
 
         // Sound effects! (Used mostly for silly reasons)
-        Escort_SFX_Death = new SoundID("Escort_Failure", true);
-        Escort_SFX_Flip = new SoundID("Escort_Flip", true);
-        Escort_SFX_Roll = new SoundID("Escort_Roll", true);
-        Escort_SFX_Boop = new SoundID("Escort_Boop", true);
-        Escort_SFX_Railgunner_Death = new SoundID("Escort_Rail_Fail", true);
-        Escort_SFX_Lizard_Grab = new SoundID("Escort_Liz_Grab", true);
-        Escort_SFX_Impact = new SoundID("Escort_Impact", true);
-        Escort_SFX_Parry = new SoundID("Escort_Parry", true);
-        Escort_SFX_Flip2 = new SoundID("Escort_Flip_More", true);
-        Escort_SFX_Flip3 = new SoundID("Escort_Flip_Even_More", true);
-        Escort_SFX_Brawler_Shank = new SoundID("Escort_Brawl_Shank", true);
-        Escort_SFX_Pole_Bounce = new SoundID("Escort_Pole_Bounce", true);
-        Escort_SFX_Uhoh_Big = new SoundID("Escort_Rotunded", true);
-        Esconfig_SFX_Sectret = new SoundID("Esconfig_Sectret", true);
-        Escort_SFX_Placeholder = new SoundID("Esplaceholder", true);
-        Escort_SFX_Gild_Stomp = new SoundID("Escort_Gild_Stomp", true);
-        //Escort_SFX_Spawn = new SoundID("Escort_Spawn", true);
 
         // Custom sprites! Includes a checker to check if they loaded correctly and are not null!
         FAtlas aB, aH, hA, hB;
