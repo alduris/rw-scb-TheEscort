@@ -8,6 +8,21 @@ namespace TheEscort
 {
     public static class Enums
     {
+        /*public class Build : ExtEnum<Build>
+        {
+            public static readonly Build Default = new("EscortMe");
+            public static readonly Build Brawler = new("EscortBriish");
+            public static readonly Build Deflector = new("EscortGamer");
+            public static readonly Build Escapist = new("EscortHax");
+            public static readonly Build Railgunner = new("EscortRizzgayer");
+            public static readonly Build Speedster = new("EscortCheese");
+            public static readonly Build Gilded = new("EscortDrip");
+            public static readonly Build Blaster = new("EscortForce");
+            public static readonly Build Barbarian = new("EscortProWrestler");
+
+            public Build(string value, bool register = false) : base(value, register) { }
+        }*/
+
         public static class SlugcatNames
         {
             public static SlugcatStats.Name EscortMe;

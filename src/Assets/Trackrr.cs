@@ -1,5 +1,6 @@
 ﻿using System;
 using RWCustom;
+using TheEscort.Escort.Builds;
 using UnityEngine;
 
 namespace TheEscort;
@@ -159,7 +160,7 @@ public static class ETrackrr
     {
         private readonly Player player;
         private readonly Escort e;
-        public BrawlerMeleeTraction(int playerNumber, int trackerNumber, Player player, Escort escort) : base(playerNumber, trackerNumber, "brawler", new Color(0.8f, 0.4f, 0.6f))
+        public BrawlerMeleeTraction(int playerNumber, int trackerNumber, Player player, Brawler escort) : base(playerNumber, trackerNumber, "brawler", new Color(0.8f, 0.4f, 0.6f))
         {
             this.player = player;
             this.e = escort;
@@ -193,7 +194,7 @@ public static class ETrackrr
     public class DeflectorEmpowerTraction : Trackrr<float>
     {
         private readonly Escort e;
-        public DeflectorEmpowerTraction(int playerNumber, int trackerNumber, Escort escort) : base(playerNumber, trackerNumber, "deflector", new Color(0.69f, 0.55f, 0.9f))
+        public DeflectorEmpowerTraction(int playerNumber, int trackerNumber, Deflector escort) : base(playerNumber, trackerNumber, "deflector", new Color(0.69f, 0.55f, 0.9f))
         {
             this.e = escort;
         }
@@ -218,7 +219,7 @@ public static class ETrackrr
         private float transitioner;
         private float transitioning;
         private int prevMax;
-        public EscapistUngraspTraction(int playerNumber, int trackerNumber, Escort escort) : base(playerNumber, trackerNumber, "escapist")
+        public EscapistUngraspTraction(int playerNumber, int trackerNumber, Escapist escort) : base(playerNumber, trackerNumber, "escapist")
         {
             this.e = escort;
             Color escapistColor = new Color(0.42f, 0.75f, 0.1f);
@@ -273,7 +274,7 @@ public static class ETrackrr
     public class NewEscapistTraction : Trackrr<float>
     {
         private readonly Escort escort;
-        public NewEscapistTraction(int playerNumber, int trackerNumber, Escort escort) : base(playerNumber, trackerNumber, "newescapist", new Color(0.0f, 0.8f, 0.5f))
+        public NewEscapistTraction(int playerNumber, int trackerNumber, NewEscapist escort) : base(playerNumber, trackerNumber, "newescapist", new Color(0.0f, 0.8f, 0.5f))
         {
             this.escort = escort;
             this.effectColor = Color.grey;
@@ -309,7 +310,7 @@ public static class ETrackrr
         private readonly Player player;
         private readonly Escort e;
 
-        public RailgunnerCDTraction(int playerNumber, int trackerNumber, Player player, Escort escort) : base(playerNumber, trackerNumber, "RailgunnerCD", new Color(0.35f, 0.7f, 0.63f))
+        public RailgunnerCDTraction(int playerNumber, int trackerNumber, Player player, Railgunner escort) : base(playerNumber, trackerNumber, "RailgunnerCD", new Color(0.35f, 0.7f, 0.63f))
         {
             this.player = player;
             effectColor = new Color(0.85f, 0.3f, 0.0f);
@@ -331,7 +332,7 @@ public static class ETrackrr
         private bool yesTrans;
         private float transitioning;
         private readonly Escort e;
-        public RailgunnerUsageTraction(int playerNumber, int trackerNumber, Escort escort) : base(playerNumber, trackerNumber, "railgunnerUse")
+        public RailgunnerUsageTraction(int playerNumber, int trackerNumber, Railgunner escort) : base(playerNumber, trackerNumber, "railgunnerUse")
         {
             trackerColor = new Color(0.5f, 0.85f, 0.78f);
             effectColor = new Color(1f, 0.45f, 0.0f);
@@ -384,7 +385,7 @@ public static class ETrackrr
         private float oldValue;
         private float transitioning;
         private bool yesTrans;
-        public SpeedsterTraction(int playerNumber, int trackerNumber, Escort escort, int gear) : base(playerNumber, trackerNumber, "speedster")
+        public SpeedsterTraction(int playerNumber, int trackerNumber, Speedster escort, int gear) : base(playerNumber, trackerNumber, "speedster")
         {
             this.e = escort;
             this.gear = gear;
@@ -444,7 +445,7 @@ public static class ETrackrr
     {
         private readonly Escort escort;
         private readonly bool extra;
-        public SpeedsterOldTraction(int playerNumber, int trackerNumber, Escort escort, bool extra = false) : base(playerNumber, trackerNumber, "speedsterOld")
+        public SpeedsterOldTraction(int playerNumber, int trackerNumber, Speedster escort, bool extra = false) : base(playerNumber, trackerNumber, "speedsterOld")
         {
             this.escort = escort;
             this.extra = extra;

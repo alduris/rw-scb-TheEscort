@@ -3,6 +3,7 @@ using IL.MoreSlugcats;
 using System;
 using UnityEngine;
 using static TheEscort.Eshelp;
+using static TheEscort.Enums.SlugcatNames;
 
 namespace TheEscort
 {

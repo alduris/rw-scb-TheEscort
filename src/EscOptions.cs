@@ -9,7 +9,7 @@ using static TheEscort.Eshelp;
 
 namespace TheEscort
 {
-    class EscOptions : OptionInterface
+    public class EscOptions : OptionInterface
     {
         public readonly RainWorld rainworld;
         public Configurable<bool> cfgMeanLizards;  // Mean Lizards: Configures the lizards to be a bit meaner and aggressive

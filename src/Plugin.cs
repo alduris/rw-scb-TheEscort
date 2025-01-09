@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using TheEscort.Escort.Builds;
+using TheEscort.Escort;
 using static SlugBase.Features.FeatureTypes;
 using static TheEscort.Eshelp;
 using static TheEscort.SMSMod;
@@ -25,7 +27,7 @@ using static TheEscort.Enums.Sounds;
 namespace TheEscort;
 
 [BepInPlugin(MOD_ID, "[Beta] The Escort", "0.3.3")]
-partial class Plugin : BaseUnityPlugin
+public class Plugin : BaseUnityPlugin
 {
     /// <summary>
     /// Static instance of the plugin class to allow public access to things that require this class
@@ -36,7 +38,7 @@ partial class Plugin : BaseUnityPlugin
     /// <summary>
     /// Configuration instance, to access all the user-set options
     /// </summary>
-    public EscOptions config;
+    public static EscOptions config;
 
     /// <summary>
     /// Literally only used in the above section above the partial class identifier
@@ -398,7 +400,49 @@ partial class Plugin : BaseUnityPlugin
 
         On.Menu.SleepAndDeathScreen.AddBkgIllustration += Escort_Add_Slugpup;
 
-        On.PlayerSessionRecord.AddKill += Esclass_DF_DamageIncrease;
+        //On.PlayerSessionRecord.AddKill += Esclass_DF_DamageIncrease;
+        On.PlayerSessionRecord.AddKill += (orig, session, victim) =>
+        {
+            // TODO: make this NOT a lambda
+            try
+            {
+                if (victim.killTag?.realizedCreature is Player p && p.TryGetEscortClass(out EscortData e) && p.room?.game?.session is StoryGameSession sgs)
+                {
+                    // Deflector stuff
+                    (e.Build as Deflector)?.DamageIncrease(p, victim);
+
+                    // Challenge mode stuff
+                    if (SChallengeMachine.SC03_Active && victim.killTag?.realizedCreature is Player && victim.abstractCreature?.abstractAI is not null && victim is Scavenger s)
+                    {
+                        Ebug("Scav kill!");
+                        if (escort.challenge03InView == s)
+                        {
+                            victim.room.SC03_Achieve(true);
+                        }
+                        if (s.Elite)
+                        {
+                            sgs.saveState.miscWorldSaveData.Esave().ESC03_EScaKills++;
+                        }
+                        else
+                        {
+                            sgs.saveState.miscWorldSaveData.Esave().ESC03_ScavKills++;
+                        }
+                        Ebug("Elites:" + sgs.saveState.miscWorldSaveData.Esave().ESC03_EScaKills);
+                        Ebug("Normal:" + sgs.saveState.miscWorldSaveData.Esave().ESC03_ScavKills);
+                        victim.room.SC03_Achieve(false);
+                    }
+                }
+            }
+            catch (NullReferenceException ne)
+            {
+                Ebug(ne, "Permadamage increase failed due to null!");
+            }
+            catch (Exception e)
+            {
+                Ebug(e, "Permadamage increase failed due to generic error!");
+            }
+            orig(session, victim);
+        };
     }
 
     /// <summary>
@@ -421,9 +465,9 @@ partial class Plugin : BaseUnityPlugin
         orig(self);
         try
         {
-            if (this.config is null)
+            if (config is null)
             {
-                MachineConnector.SetRegisteredOI("urufudoggo.theescort", this.config);
+                MachineConnector.SetRegisteredOI("urufudoggo.theescort", config);
             }
             IL.MoreSlugcats.LillyPuck.HitSomething += Escort_LillyHit;
             IL.MoreSlugcats.Bullet.HitSomething += Escort_BulletHit;
@@ -486,8 +530,8 @@ partial class Plugin : BaseUnityPlugin
             Ebug("Oh no. Sprites dead.", 0);
         }
         Ebug("All SFX loaded!", 1);
-        this.config = new EscOptions(rainWorld);
-        MachineConnector.SetRegisteredOI("urufudoggo.theescort", this.config);
+        config = new EscOptions(rainWorld);
+        MachineConnector.SetRegisteredOI("urufudoggo.theescort", config);
         ins.L().Christmas(config.cfgSectret.Value);
         Ebug("All loaded!", 1);
     }

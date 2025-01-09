@@ -8,12 +8,14 @@ namespace TheEscort.Escort.Builds
     {
         public static readonly PlayerFeature<bool> barbarianDisallowOversizedLuggage = PlayerBool("theescort/barbarian/nooverlug");
 
-        public Color color;
-        private Creature.Grasp? cretinHold;
-        private int wiggle;
-        private int shieldDelay;
-        private int shieldStunDelay;
-        private int shieldState;
+        public override Color DefaultColor => new(1f, 0, 0);
+
+        private Creature.Grasp? cretinHold = null;
+        private int wiggle = 0;
+
+        private int shieldDelay = 0;
+        private int shieldStunDelay = 0;
+        private int shieldState = 0;
 
         public override void Tick(Player self)
         {

@@ -9,7 +9,7 @@ using static TheEscort.Enums.Sounds;
 
 namespace TheEscort.Escort.Builds
 {
-    public class Brawler : EscortClass
+    public class Brawler : EscortClass, IAffectThrown
     {
         private enum BrawlerWeapon
         {
@@ -59,24 +59,24 @@ namespace TheEscort.Escort.Builds
         public static readonly PlayerFeature<float[]> brawlerSpearShankY = PlayerFloats("theescort/brawler/spear_shank");
         public static readonly PlayerFeature<float> brawlerRockHeight = PlayerFloat("theescort/brawler/rock_height");
 
-        public Color color;
-        private bool wall;
+        public override Color DefaultColor => new (0.447f, 0.235f, 0.53f);
+        private bool wall = false;
 
-        private bool shankSpearTumbler;
-        private Vector2 shankDir;
+        private bool shankSpearTumbler = false;
+        private Vector2 shankDir = Vector2.zero;
 
-        private Stack<Weapon> meleeWeapon;
-        private int throwUsed;
-        private int throwGrab;
+        private Stack<Weapon> meleeWeapon = new(1);
+        private int throwUsed = -1;
+        private int throwGrab = -1;
 
-        private int revertWall;
-        private Stack<Spear> wallSpear;
-        private BrawlerWeapon currWeapon;
-        private BrawlerWeapon lastWeapon;
+        private int revertWall = -1;
+        private Stack<Spear> wallSpear = new(1);
+        private BrawlerWeapon currWeapon = BrawlerWeapon.NONE;
+        private BrawlerWeapon lastWeapon = BrawlerWeapon.NONE;
 
         private bool AnyShank => currWeapon == BrawlerWeapon.SuperShank || currWeapon == BrawlerWeapon.Shank;
 
-        private int setCooldown;
+        private int setCooldown = 20;
 
         public override void Tick(Player self)
         {
@@ -239,7 +239,7 @@ namespace TheEscort.Escort.Builds
                 {
                     return base.Grabability(orig, self, obj);
                 }
-                if (c.Stunned && c is Lizard && Esconfig_Dunkin() && !e.LizardDunk)
+                if (c.Stunned && c is Lizard && Esconfig_Dunkin() && data.lizardDunk is not null)
                 {
                     if (e.LizGoForWalk == 0)
                     {
@@ -262,7 +262,7 @@ namespace TheEscort.Escort.Builds
             return grabCheck.TotalMass <= self.TotalMass * ratioed * 2;
         }
 
-        public override void ThrowSpear(Player self, Spear spear, ref float thrust)
+        public void ThrowSpear(Player self, Spear spear, ref float thrust)
         {
             if (
                 !brawlerSpearVelFac.TryGet(self, out float[] bSpearVel) ||
@@ -342,7 +342,7 @@ namespace TheEscort.Escort.Builds
             }
         }
 
-        public override void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
+        public void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu)
         {
             if (self.animation == Player.AnimationIndex.BellySlide && self.slideDirection == self.ThrowDirection)
             {
@@ -504,7 +504,7 @@ namespace TheEscort.Escort.Builds
 
         public void OnRockThrow(Player self)
         {
-            if (!brawlerRockHeight.TryGet(p, out float roH))
+            if (!brawlerRockHeight.TryGet(self, out float roH))
             {
                 return;
             }

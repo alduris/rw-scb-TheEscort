@@ -1,8 +1,13 @@
-﻿namespace TheEscort.Escort.Builds
+﻿using UnityEngine;
+
+namespace TheEscort.Escort.Builds
 {
     public abstract class EscortClass
     {
+        public EscortData data;
+
         // Common
+        public abstract Color DefaultColor { get; }
         public abstract void Tick(Player self);
         public abstract void Update(Player self);
 
@@ -12,9 +17,9 @@
         public virtual Player.ObjectGrabability Grabability(Player.ObjectGrabability orig, Player self, PhysicalObject obj) => orig;
         public virtual bool LegalToGrab(bool orig, Player self, Creature grabCheck) => orig;
 
-        // Violence
-        public virtual void ThrowSpear(Player self, Spear spear, ref float thrust) { }
-        public virtual void ThrowObject(On.Player.orig_ThrowObject orig, Player self, int grasp, bool eu) => orig(self, grasp, eu);
+        // Misc updating
+        public virtual void UpdateAnimation(Player self) { }
+        public virtual void UpdateSaveState(ShelterDoor self, int playerNumber, bool success) { }
 
         // Debug
         public virtual void DebugPrint(Player self)

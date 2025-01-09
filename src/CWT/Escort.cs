@@ -107,93 +107,6 @@ namespace TheEscort
 
 
 
-        /// <summary>
-        /// IS IT FUCKING DEFLECTOR?!
-        /// </summary>
-        public bool Deflector;
-
-        /// <summary>
-        /// Deflector color when scug color is not custom
-        /// </summary>
-        public Color DeflectorColor;
-
-        /// <summary>
-        /// Deflector empowered timer
-        /// </summary>
-        public int DeflAmpTimer;
-
-        /// <summary>
-        /// Deflector easy parry (backflip onto creature)
-        /// </summary>
-        public bool DeflTrampoline;
-
-        /// <summary>
-        /// Deflector parry sfx cooldown (so it doesn't make the sound like 10 times per parry)
-        /// </summary>
-        public int DeflSFXcd;
-
-        /// <summary>
-        /// Super extended belly slide accumulator
-        /// </summary>
-        public int DeflSlideCom;
-
-        /// <summary>
-        /// Gives a micro boost when slide-pouncing
-        /// </summary>
-        public bool DeflSlideKick;
-
-        /// <summary>
-        /// Level of empowerment
-        /// </summary>
-        public int DeflPowah;
-
-        /// <summary>
-        /// Deflector permanent damage multiplier (per player)
-        /// </summary>
-        private float _deflperma;
-
-        /// <summary>
-        /// Gets either the per player perma damage multiplier, or the shared pool
-        /// </summary>
-        public float DeflPerma
-        {
-            get
-            {
-                if (Plugin.ins.config.cfgDeflecterSharedPool.Value && !escortArena)
-                {
-                    return Plugin.DeflSharedPerma;
-                }
-                return _deflperma;
-            }
-            set
-            {
-                if (Plugin.ins.config.cfgDeflecterSharedPool.Value && !escortArena)
-                {
-                    Plugin.DeflSharedPerma = value;
-                }
-                else
-                {
-                    _deflperma = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Empowered damage based on level
-        /// </summary>
-        public float DeflDamageMult
-        { 
-            get 
-            {
-                return DeflPowah switch
-                {
-                    3 => 1000000f,
-                    2 => 7f,
-                    1 => 3f,
-                    _ => 0.5f
-                };
-            }
-        }
 
         /// <summary>
         /// IS IT A BORING ASS NUGGET?!
@@ -414,10 +327,10 @@ namespace TheEscort
             this.isDefault = false;
             this.acidSwim = 0.4f;
             this.viscoColor = Color.black;
-            this.CustomKeybindEnabled = Plugin.ins.config.cfgCustomBinds[player.playerState.playerNumber].Value && Plugin.ins.config.cfgBindKeys[player.playerState.playerNumber].Value is not KeyCode.None;
+            this.CustomKeybindEnabled = Plugin.config.cfgCustomBinds[player.playerState.playerNumber].Value && Plugin.config.cfgBindKeys[player.playerState.playerNumber].Value is not KeyCode.None;
             if (CustomKeybindEnabled)
             {
-                CustomKeybind = Plugin.ins.config.cfgBindKeys[player.playerState.playerNumber].Value;
+                CustomKeybind = Plugin.config.cfgBindKeys[player.playerState.playerNumber].Value;
             }
             this.offendingKingTusk = new(1);
             this.offendingKTtusk = -1;
@@ -425,20 +338,6 @@ namespace TheEscort
             this.tryFindingPup = 80;
 
             // Build specific
-            this.Brawler = false;
-            this.BrawlerColor = new Color(0.447f, 0.235f, 0.53f);
-            this.BrawShankMode = false;
-            this.BrawPunch = false;
-            this.BrawWall = false;
-            this.BrawRevertWall = -1;
-            this.BrawWallSpear = new Stack<Spear>(1);
-            this.BrawShankDir = new Vector2();
-            this.BrawMeleeWeapon = new Stack<Weapon>(1);
-            this.BrawShankSpearTumbler = false;
-            this.BrawThrowGrab = -1;
-            this.BrawThrowUsed = -1;
-            this.BrawLastWeapon = "";
-            this.BrawSetCooldown = 20;
 
             this.Deflector = false;
             this.DeflectorColor = new Color(0.23f, 0.24f, 0.573f);
@@ -776,7 +675,7 @@ namespace TheEscort
             string hypeSprite = "escort_hud_default";
             if (Brawler)
             {
-                hypeSprite = Plugin.ins.config.cfgSFX.Value? "escort_hud_brawler_alt" : "escort_hud_brawler";
+                hypeSprite = Plugin.config.cfgSFX.Value? "escort_hud_brawler_alt" : "escort_hud_brawler";
                 floatTrackers.Add(new ETrackrr.BrawlerMeleeTraction(n, 1, self, this));
             }
             if (Deflector)
@@ -828,7 +727,7 @@ namespace TheEscort
                 floatTrackers.Add(new ETrackrr.UnstableTraction(n, 1, self, this));
                 //floatTrackers.Add(new ETrackrr.UnstableFrameTraction(n, 1, this));
             }
-            this.floatTrackers.Add(new ETrackrr.HypeTraction(n, 0, Plugin.ins.config.cfgHypeRequirement.Value, self, this, hypeSprite));
+            this.floatTrackers.Add(new ETrackrr.HypeTraction(n, 0, Plugin.config.cfgHypeRequirement.Value, self, this, hypeSprite));
             this.floatTrackers.Add(new ETrackrr.DamageProtectionTraction(n, 0, self, this));
             this.floatTrackers.Add(new ETrackrr.SwimTracker(n, 0, self, this));
         }
